@@ -16,7 +16,7 @@ gem "middleman-blog"
 gem "middleman-sprockets"
 gem "middleman-disqus"
 gem 'middleman-search_engine_sitemap'
-gem 'middleman-deploy', '~> 1.0'
+gem "middleman-deploy", "~> 2.0.0.pre.alpha"
 
 # For feed.xml.builder
 gem 'redcarpet'
