@@ -1,0 +1,35 @@
+-# coding: utf-8
+!!! XML
+!!! Strict
+%html
+  %head= partial 'layouts/head', :locals => {:page_title =>  current_page.data['title']}
+
+  :css
+    .footer.segment {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+  %body
+    = partial 'layouts/floating_menu'
+
+    - # -- Page Contents
+    .pusher
+      .ui.inverted.vertical.masthead.center.aligned.segment
+        .ui.container
+          = partial 'layouts/menu'
+
+      .ui.basic.segment
+        .ui.text.container
+          %h1
+            %i{:class => 'ui icon tag'}
+            = tagname.titleize
+
+          = yield_content :body
+
+      .ui.basic.segment
+        .ui.one.column.grid
+          .column
+
+      = partial :"layouts/footer"

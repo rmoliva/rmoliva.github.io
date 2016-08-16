@@ -1,0 +1,48 @@
+friends:
+  - Tom
+  - Dick
+  - Harry
+name: 'The Gold Bug'
+description: 'A long distance developer experience.'
+keywords:
+  - javascript
+  - typescript
+  - ruby
+  - ror
+  - rails
+  - rubyonrails
+  - ramda
+  - cyclejs
+  - snabbdom
+  - reactjs
+  - frp
+  - functional
+  - tdd
+  - ci
+  - scrum
+  - mysql
+  - mongodb
+  - cassandra
+  - linux
+  - git
+
+author: 'Roberto M. Oliva'
+url: 'http://rmoliva.github.io'
+social_links:
+  :github: 'https://github.com/rmoliva'
+  :linkedin: 'http://www.linkedin.com/in/robertomoliva'
+  :delicious: 'http://del.icio.us/roliva'
+  :twitter: 'https://twitter.com/rmoliva'
+  :google: 'https://plus.google.com/u/0/113516990636581869855/posts/p/pub'
+  :facebook: 'https://www.facebook.com/roberto.m.oliva'
+  :tumblr: 'http://rmoliva.tumblr.com/'
+language_disclaimer: As you probably notice I am not a native English speaker so you can find lots of gramatical, typographical, etc mistakes. <br/> Any constructive criticism will be wellcome!
+thanks_to:
+  - :name: Middleman
+    :url: https://middlemanapp.com/
+  - :name: Github
+    :url: http://github.com/
+  - :name: Semantic UI
+    :url: http://semantic-ui.com
+  - :name: Gratisography
+    :url: http://www.gratisography.com

@@ -1,0 +1,145 @@
+---
+title: "JavaScript: Promise Patterns for scaleApp Applications"
+date: 2015-02-14
+tags: javascript, scaleapp, promises
+author: Roberto M. Oliva
+---
+
+%p
+	I love
+	= link_to 'scaleApp', 'http://scaleapp.org/'
+	\.
+	It helps us modularize and divide an application in well-formed, isolated modules. It also provides a communication means between them all and sets a convenience infraestructure to put the pieces together. It is also easy to learn and to follow.
+
+%p
+	In all this time using it I ended writting a set of promise functions that help isolate some common issues of  scaleApp in a recurring manner.
+
+READMORE
+
+%h2 Module lifecycle
+
+%p
+	The following is the code for an empty module that responds to the
+	%i initialize
+	and
+	%i destroy
+	methods always as if it is an asynchronous module (see the
+	%i done
+	function):
+
+%pre
+	%code{:class => 'javascript'}
+		= preserve do
+			:escaped
+				var MyModule = function(sandbox){
+					return {
+						init: function(options, done){
+							done();
+						},
+						destroy: function(done){
+							done();
+					  }
+				  };
+				};
+				core.register('myModule', MyModule);
+
+%p
+	So, the two firsts promise functions are in charge of start and stop a module:
+
+%pre
+	%code{:class => 'javascript'}
+		= preserve do
+			:escaped
+				var moduleStart = function(module, options) {
+					return new Promise(function(resolve, error) {
+						core.start(module, {
+							options: options
+						}, resolve );
+					});
+				};
+
+				var moduleStop = function(module, options) {
+				  return new Promise(function(resolve, error) {
+					  core.stop(module, resolve);
+				  });
+				};
+
+%p
+	Well, nothing outrageous. But it help us to start modules as promises with all of it’s advantages. For example: it is very easy to read and tweek the following code:
+
+	%pre
+		%code{:class => 'javascript'}
+			= preserve do
+				:escaped
+					moduleStart('loader', options).then(function() {
+					  return moduleStop('loader', options);
+					}).then(function() {
+					  return Promise.all([
+						  moduleStart('header')
+						  moduleStart('main_layout')
+						  moduleStart('footer')
+					  ]);
+					}).done(function() {
+					  return moduleStart('dashboard');
+					});
+
+%h2 Module communication
+
+%p
+	Another common pattern is the communication between modules. When a module wants another to do something it sends a signal event to the performer module. Here again I force the system to work in an asynchronous manner so the receiver module should always signal a finished event even if all the work is done inside, for example, one method.
+
+%p
+	The promise that performs this functionality is the following:
+
+%pre
+	%code{:class => 'javascript'}
+		= preserve do
+			:escaped
+				var emitEvent = function(startEvent, endEvent, data) {
+				 return new Promise(function(resolve, reject) {
+					 var subscription;
+					 subscription = core.on(endEvent, function() {
+						 subscription.detach();
+						 resolve();
+					 });
+				 	 core.emit(startEvent);
+				 });
+				};
+
+%p
+	I usually wrap all the events inside promise functions keeping the definition of the event names from spreading accross different parts of the application. 
+
+%p
+	For example the following are several helper functions that allows to send events from one module to another:
+
+%pre
+	%code{:class => 'javascript'}
+		= preserve do
+			:escaped
+				var headerShowSpinner = function(data) {
+				  return emitEvent('header.showSpinner', 'header.showSpinnerEnd', data);
+				};
+
+				var headerHideSpinner = function(data) {
+				  return emitEvent('header.hideSpinner', 'header.hideSpinnerEnd', data);
+				};
+
+				var mainLoadPanel = function(data) {
+				  return emitEvent('main.loadPanel', 'main.loadPanelEnd', data);
+				};
+
+%p
+	Once again this helps us writing code that is easier to tweek and understand. See how the module that invokes the following doesn’t need to know the name of the events but only the functionality:
+
+%pre
+	%code{:class => 'javascript'}
+		= preserve do
+			:escaped
+				headerShowSpinner().then(function() {
+				  return mainLoadPanel(options);
+				}).done(function() {
+				  headerHideSpinner();
+				});
+
+%p
+	These are just simple patterns. It is not rocket science. It just helped me and I hope it helps you.

@@ -1,0 +1,12 @@
+- # -- Standard Meta
+%meta{:charset=>"utf-8"}
+%meta{:'http-equiv'=>"X-UA-Compatible",:content=>"IE=edge,chrome=1"}
+%meta{:name=>"viewport",:content=>"width=device-width",:"initial-scale"=>1.0,:"maximum-scale"=>1.0}
+
+- page_title = page_title ? "#{page_title} | #{data.site.name}" : data.site.name
+%title= page_title
+%meta{:content=>data.site.description,:name=>"description"}
+%meta{:content=>data.site.keywords.join(','),:name=>"keywords"}
+
+= stylesheet_link_tag 'all'
+= javascript_include_tag 'all'

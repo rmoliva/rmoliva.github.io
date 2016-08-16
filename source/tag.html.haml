@@ -1,0 +1,23 @@
+---
+pageable: true
+per_page: 12
+layout: tag
+---
+
+= content_for :body do
+  - if paginate && num_pages > 1
+    %p= "Page #{page_number} of #{num_pages}"
+
+  - if paginate && prev_page
+    %p= link_to('Previous page', prev_page)
+
+  .ul.list
+    - page_articles.each_with_index do |article, i|
+      .item
+        .content
+          = link_to(article.title, article, :class => 'header')
+          .meta= date_format(article.date)
+          .description= article.summary
+
+  - if paginate && next_page
+    %p= link_to 'Next page', next_page

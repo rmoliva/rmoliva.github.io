@@ -1,0 +1,19 @@
+.ui.inverted.vertical.footer.segment
+  .ui.container
+    .ui.stackable.inverted.divided.equal.height.stackable.grid
+      .three.wide.column
+        %h4{:class=>"ui inverted header"} Social links
+        %div{:class=>"ui inverted link list"}
+          - data.site.social_links.each do |key, url|
+            .ui
+              %i{:class=>"#{key} icon"}
+              %a{:href=>url,:class=>"item"}= key.titleize
+
+      .three.wide.column
+        %h4{:class=>"ui inverted header"} Thanks to
+        %div{:class=>"ui inverted link list"}
+          - data.site.thanks_to.each do |data|
+            %a{:class=>"item", :href => data.url}= data.name
+      .seven.wide.column
+        %h4{:class=>"ui inverted header"} Language disclaimer
+        %p= data.site.language_disclaimer

@@ -1,0 +1,65 @@
+-# coding: utf-8
+!!! XML
+!!! Strict
+%html
+  %head
+    = partial 'layouts/head'
+
+    :css
+      .masthead.segment {
+        background: url(/images/267Hd.jpg) no-repeat 0px 0px fixed !important;
+        min-height: 250px;
+        background-color: #1B1C1D;
+      }
+
+  %body
+    = partial 'layouts/floating_menu'
+
+    - # -- Page Contents
+    .pusher
+      .ui.vertical.masthead.center.aligned.segment
+        - # .ui.container
+        - #   = partial 'layouts/menu'
+
+        .ui.text.container
+          %h1{:class=>"ui inverted header"}
+            = data.site.name
+          %h2= data.site.description
+
+      - # .main.ui.basic.segment
+      - #   .ui.middle.aligned.stackable.grid.container
+      - #     .ui.one.column.grid
+      - #       .ui.message
+      - #         %p
+      - #           Hello! My name is Roberto M. Oliva and this is my personal technological blog. You can read more about me on the
+      - #           %a{:href =>'/about.html'} about page
+      - #           \.
+      - #           %br
+      - #           Feel free to browse the site and comment anything you like.
+
+      .main.ui.basic.segment
+        .ui.middle.aligned.stackable.grid.container
+          .ui.one.column.grid
+            - # %h3{:class=>"ui header"} Last blog entries
+            - blog.articles[0...5].each do |article|
+              .column
+                .ui.fluid.card
+                  .content
+                    .header
+                      %h3
+                        %a{:href=>article.url, :class => 'header'}= article.title
+                    .meta= date_format(article.date)
+                    .description= article.summary
+                  .extra.content
+                    %span{:class => "right floated"}
+                      %i{:class => "mouse pointer icon"}
+                      %a{:href=> article.url } Read more
+                    %span
+                      - article.tags.each do |tag|
+                        = tag_label(tag)
+
+            .column.right.aligned
+              %a{:href => '/feed.xml'}
+                %i{:class => "feed icon"}
+
+      = partial :"layouts/footer"

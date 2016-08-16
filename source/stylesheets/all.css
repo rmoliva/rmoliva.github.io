@@ -1,0 +1,89 @@
+/*= require 'semantic' */
+/*= require 'highlight/styles/tomorrow-night' */
+
+.hidden.menu {
+  display: none;
+}
+
+.ui.masthead.segment {
+  padding: 1em 0em;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: white;
+}
+
+.masthead .ui.secondary.menu {
+  background-color: white;
+}
+
+.masthead .logo.item img {
+  margin-right: 1em;
+}
+.masthead .ui.menu .ui.button {
+  margin-left: 0.5em;
+}
+.masthead h1.ui.header {
+  margin-top: 3em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+.main.ui.segment {
+  padding: 2em 0em;
+}
+.main.ui.segment h3 {
+  font-size: 2em;
+}
+.main.ui.segment .button + h3,
+.main.ui.segment p + h3 {
+  margin-top: 3em;
+}
+.main.ui.segment .floated.image {
+  clear: both;
+}
+.main.ui.segment p {
+  font-size: 1.33em;
+}
+.main.ui.segment .horizontal.divider {
+  margin: 3em 0em;
+}
+
+.footer.segment {
+  padding: 5em 0em;
+}
+
+.secondary.pointing.menu .toc.item {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .ui.fixed.menu {
+    display: none !important;
+  }
+  .secondary.pointing.menu .item,
+  .secondary.pointing.menu .menu {
+    display: none;
+  }
+  .secondary.pointing.menu .toc.item {
+    display: block;
+  }
+  .masthead.segment {
+    min-height: 350px;
+    background-image: url("/images/267H.jpg");
+  }
+  .masthead h1.ui.header {
+    font-size: 2em;
+    margin-top: 1.5em;
+  }
+  .masthead h2 {
+    margin-top: 0.5em;
+    font-size: 1.5em;
+  }
+}

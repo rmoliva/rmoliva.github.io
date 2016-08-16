@@ -1,0 +1,17 @@
+- # -- Following Menu
+.ui.large.top.fixed.hidden.menu
+  .ui.container
+    %a{:class=>"active item"}
+      %i{:class => 'ui icon home'}
+      Home
+    .ui.dropdown.item
+      %i{:class => 'ui icon tags'}
+      Tags
+      %i{:class=>"dropdown icon"}
+      .menu
+        - blog.tags.each do |tag, articles|
+          %a{:class=>"item", :href => tag_path(tag)}
+            %i{:class => 'ui icon tag'}
+            = "#{tag} (#{articles.size})"
+    .right.item
+    %a{:class=>"item", :href => '/about.html'} About

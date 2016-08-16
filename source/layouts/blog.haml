@@ -1,0 +1,32 @@
+-# coding: utf-8
+!!! XML
+!!! Strict
+%html
+  %head= partial 'layouts/head', :locals => {:page_title =>  current_page.data['title']}
+
+  %body
+    = partial 'layouts/floating_menu'
+
+    - # -- Page Contents
+    .pusher
+      .ui.inverted.vertical.masthead.center.aligned.segment
+        .ui.container
+          = partial 'layouts/menu'
+
+      .ui.vertical.stripe.segment
+        .ui.text.container
+          %h1= current_page.data.title
+          = current_page.data.date.strftime('%Y %b %e')
+          .ui.divider
+
+          = yield
+
+          - current_page.data.tags.split(',').each do |tag|
+            = tag_label(tag)
+
+          .ui.divider
+
+        .ui.text.container
+          = disqus
+          = disqus_count
+      = partial :"layouts/footer"
