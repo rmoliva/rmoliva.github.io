@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Gold Bug</title>
+  <id>http://rmoliva.github.io</id>
+  <link href="http://rmoliva.github.io"/>
+  <link href="http://rmoliva.github.io/feed.xml" rel="self"/>
+  <updated>2015-02-14T01:00:00+01:00</updated>
+  <author>
+    <name>Roberto M. Oliva</name>
+  </author>
+  <entry>
+    <title>JavaScript: Promise Patterns for scaleApp Applications</title>
+    <link rel="alternate" href="http://rmoliva.github.io/posts/2015-02-14-javascript_promise_patterns_scaleapp.html"/>
+    <id>http://rmoliva.github.io/posts/2015-02-14-javascript_promise_patterns_scaleapp.html</id>
+    <published>2015-02-14T01:00:00+01:00</published>
+    <updated>2016-08-17T10:13:09+02:00</updated>
+    <author>
+      <name>Roberto M. Oliva</name>
+    </author>
+    <content type="html">&lt;p&gt;
+  I love
+  &lt;a href="http://scaleapp.org/"&gt;scaleApp&lt;/a&gt;
+  .
+  It helps us modularize and divide an application in well-formed, isolated modules. It also provides a communication means between them all and sets a convenience infraestructure to put the pieces together. It is also easy to learn and to follow.
+&lt;/p&gt;
+&lt;p&gt;
+  In all this time using it I ended writting a set of promise functions that help isolate some common issues of  scaleApp in a recurring manner.
+&lt;/p&gt;
+
+&lt;h2&gt;Module lifecycle&lt;/h2&gt;
+&lt;p&gt;
+  The following is the code for an empty module that responds to the
+  &lt;i&gt;initialize&lt;/i&gt;
+  and
+  &lt;i&gt;destroy&lt;/i&gt;
+  methods always as if it is an asynchronous module (see the
+  &lt;i&gt;done&lt;/i&gt;
+  function):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class='javascript'&gt;var MyModule = function(sandbox){&amp;#x000A;	return {&amp;#x000A;		init: function(options, done){&amp;#x000A;			done();&amp;#x000A;		},&amp;#x000A;		destroy: function(done){&amp;#x000A;			done();&amp;#x000A;	  }&amp;#x000A;  };&amp;#x000A;};&amp;#x000A;core.register('myModule', MyModule);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  So, the two firsts promise functions are in charge of start and stop a module:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class='javascript'&gt;var moduleStart = function(module, options) {&amp;#x000A;	return new Promise(function(resolve, error) {&amp;#x000A;		core.start(module, {&amp;#x000A;			options: options&amp;#x000A;		}, resolve );&amp;#x000A;	});&amp;#x000A;};&amp;#x000A;&amp;#x000A;var moduleStop = function(module, options) {&amp;#x000A;  return new Promise(function(resolve, error) {&amp;#x000A;	  core.stop(module, resolve);&amp;#x000A;  });&amp;#x000A;};&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  Well, nothing outrageous. But it help us to start modules as promises with all of it’s advantages. For example: it is very easy to read and tweek the following code:
+  &lt;pre&gt;&lt;code class='javascript'&gt;moduleStart('loader', options).then(function() {&amp;#x000A;  return moduleStop('loader', options);&amp;#x000A;}).then(function() {&amp;#x000A;  return Promise.all([&amp;#x000A;	  moduleStart('header')&amp;#x000A;	  moduleStart('main_layout')&amp;#x000A;	  moduleStart('footer')&amp;#x000A;  ]);&amp;#x000A;}).done(function() {&amp;#x000A;  return moduleStart('dashboard');&amp;#x000A;});&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;h2&gt;Module communication&lt;/h2&gt;
+&lt;p&gt;
+  Another common pattern is the communication between modules. When a module wants another to do something it sends a signal event to the performer module. Here again I force the system to work in an asynchronous manner so the receiver module should always signal a finished event even if all the work is done inside, for example, one method.
+&lt;/p&gt;
+&lt;p&gt;
+  The promise that performs this functionality is the following:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class='javascript'&gt;var emitEvent = function(startEvent, endEvent, data) {&amp;#x000A; return new Promise(function(resolve, reject) {&amp;#x000A;	 var subscription;&amp;#x000A;	 subscription = core.on(endEvent, function() {&amp;#x000A;		 subscription.detach();&amp;#x000A;		 resolve();&amp;#x000A;	 });&amp;#x000A; 	 core.emit(startEvent);&amp;#x000A; });&amp;#x000A;};&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  I usually wrap all the events inside promise functions keeping the definition of the event names from spreading accross different parts of the application. 
+&lt;/p&gt;
+&lt;p&gt;
+  For example the following are several helper functions that allows to send events from one module to another:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class='javascript'&gt;var headerShowSpinner = function(data) {&amp;#x000A;  return emitEvent('header.showSpinner', 'header.showSpinnerEnd', data);&amp;#x000A;};&amp;#x000A;&amp;#x000A;var headerHideSpinner = function(data) {&amp;#x000A;  return emitEvent('header.hideSpinner', 'header.hideSpinnerEnd', data);&amp;#x000A;};&amp;#x000A;&amp;#x000A;var mainLoadPanel = function(data) {&amp;#x000A;  return emitEvent('main.loadPanel', 'main.loadPanelEnd', data);&amp;#x000A;};&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  Once again this helps us writing code that is easier to tweek and understand. See how the module that invokes the following doesn’t need to know the name of the events but only the functionality:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class='javascript'&gt;headerShowSpinner().then(function() {&amp;#x000A;  return mainLoadPanel(options);&amp;#x000A;}).done(function() {&amp;#x000A;  headerHideSpinner();&amp;#x000A;});&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  These are just simple patterns. It is not rocket science. It just helped me and I hope it helps you.
+&lt;/p&gt;
+</content>
+  </entry>
+</feed>

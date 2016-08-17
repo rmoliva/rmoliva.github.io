@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=device-width' initial-scale='1.0' maximum-scale='1.0' name='viewport'>
+    <title>JavaScript: Promise Patterns for scaleApp Applications | The Gold Bug</title>
+    <meta content='A long distance developer experience.' name='description'>
+    <meta content='javascript,typescript,ruby,ror,rails,rubyonrails,ramda,cyclejs,snabbdom,reactjs,frp,functional,tdd,ci,scrum,mysql,mongodb,cassandra,linux,git' name='keywords'>
+    <link href="/stylesheets/all.css" rel="stylesheet" />
+    <script src="/javascripts/all.js"></script>
+  </head>
+  <body>
+    <div class='ui large top fixed hidden menu'>
+      <div class='ui container'>
+        <a class='active item'>
+          <i class='ui icon home'></i>
+          Home
+        </a>
+        <div class='ui dropdown item'>
+          <i class='ui icon tags'></i>
+          Tags
+          <i class='dropdown icon'></i>
+          <div class='menu'>
+            <a class='item' href='/tags/javascript.html'>
+              <i class='ui icon tag'></i>
+              javascript (1)
+            </a>
+            <a class='item' href='/tags/scaleapp.html'>
+              <i class='ui icon tag'></i>
+              scaleapp (1)
+            </a>
+            <a class='item' href='/tags/promises.html'>
+              <i class='ui icon tag'></i>
+              promises (1)
+            </a>
+          </div>
+        </div>
+        <div class='right item'></div>
+        <a class='item' href='/about.html'>About</a>
+      </div>
+    </div>
+    <div class='pusher'>
+      <div class='ui inverted vertical masthead center aligned segment'>
+        <div class='ui container'>
+          <div class='ui large secondary pointing menu'>
+            <a class='toc item'>
+              <i class='sidebar icon'></i>
+            </a>
+            <a class='active item' href='/'>
+              <i class='ui icon home'></i>
+              Home
+            </a>
+            <div class='ui dropdown item'>
+              <i class='ui icon tags'></i>
+              Tags
+              <i class='dropdown icon'></i>
+              <div class='menu'>
+                <a class='item' href='/tags/javascript.html'>
+                  <i class='ui icon tag'></i>
+                  javascript (1)
+                </a>
+                <a class='item' href='/tags/scaleapp.html'>
+                  <i class='ui icon tag'></i>
+                  scaleapp (1)
+                </a>
+                <a class='item' href='/tags/promises.html'>
+                  <i class='ui icon tag'></i>
+                  promises (1)
+                </a>
+              </div>
+            </div>
+            <div class='right item'>
+              <a class='item' href='/about.html'>About</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='ui vertical stripe segment'>
+        <div class='ui text container'>
+          <h1>JavaScript: Promise Patterns for scaleApp Applications</h1>
+          2015 Feb 14
+          <div class='ui divider'></div>
+          <p>
+            I love
+            <a href="http://scaleapp.org/">scaleApp</a>
+            .
+            It helps us modularize and divide an application in well-formed, isolated modules. It also provides a communication means between them all and sets a convenience infraestructure to put the pieces together. It is also easy to learn and to follow.
+          </p>
+          <p>
+            In all this time using it I ended writting a set of promise functions that help isolate some common issues of  scaleApp in a recurring manner.
+          </p>
+          
+          <h2>Module lifecycle</h2>
+          <p>
+            The following is the code for an empty module that responds to the
+            <i>initialize</i>
+            and
+            <i>destroy</i>
+            methods always as if it is an asynchronous module (see the
+            <i>done</i>
+            function):
+          </p>
+          <pre><code class='javascript'>var MyModule = function(sandbox){&#x000A;	return {&#x000A;		init: function(options, done){&#x000A;			done();&#x000A;		},&#x000A;		destroy: function(done){&#x000A;			done();&#x000A;	  }&#x000A;  };&#x000A;};&#x000A;core.register('myModule', MyModule);</code></pre>
+          <p>
+            So, the two firsts promise functions are in charge of start and stop a module:
+          </p>
+          <pre><code class='javascript'>var moduleStart = function(module, options) {&#x000A;	return new Promise(function(resolve, error) {&#x000A;		core.start(module, {&#x000A;			options: options&#x000A;		}, resolve );&#x000A;	});&#x000A;};&#x000A;&#x000A;var moduleStop = function(module, options) {&#x000A;  return new Promise(function(resolve, error) {&#x000A;	  core.stop(module, resolve);&#x000A;  });&#x000A;};</code></pre>
+          <p>
+            Well, nothing outrageous. But it help us to start modules as promises with all of it’s advantages. For example: it is very easy to read and tweek the following code:
+            <pre><code class='javascript'>moduleStart('loader', options).then(function() {&#x000A;  return moduleStop('loader', options);&#x000A;}).then(function() {&#x000A;  return Promise.all([&#x000A;	  moduleStart('header')&#x000A;	  moduleStart('main_layout')&#x000A;	  moduleStart('footer')&#x000A;  ]);&#x000A;}).done(function() {&#x000A;  return moduleStart('dashboard');&#x000A;});</code></pre>
+          </p>
+          <h2>Module communication</h2>
+          <p>
+            Another common pattern is the communication between modules. When a module wants another to do something it sends a signal event to the performer module. Here again I force the system to work in an asynchronous manner so the receiver module should always signal a finished event even if all the work is done inside, for example, one method.
+          </p>
+          <p>
+            The promise that performs this functionality is the following:
+          </p>
+          <pre><code class='javascript'>var emitEvent = function(startEvent, endEvent, data) {&#x000A; return new Promise(function(resolve, reject) {&#x000A;	 var subscription;&#x000A;	 subscription = core.on(endEvent, function() {&#x000A;		 subscription.detach();&#x000A;		 resolve();&#x000A;	 });&#x000A; 	 core.emit(startEvent);&#x000A; });&#x000A;};</code></pre>
+          <p>
+            I usually wrap all the events inside promise functions keeping the definition of the event names from spreading accross different parts of the application. 
+          </p>
+          <p>
+            For example the following are several helper functions that allows to send events from one module to another:
+          </p>
+          <pre><code class='javascript'>var headerShowSpinner = function(data) {&#x000A;  return emitEvent('header.showSpinner', 'header.showSpinnerEnd', data);&#x000A;};&#x000A;&#x000A;var headerHideSpinner = function(data) {&#x000A;  return emitEvent('header.hideSpinner', 'header.hideSpinnerEnd', data);&#x000A;};&#x000A;&#x000A;var mainLoadPanel = function(data) {&#x000A;  return emitEvent('main.loadPanel', 'main.loadPanelEnd', data);&#x000A;};</code></pre>
+          <p>
+            Once again this helps us writing code that is easier to tweek and understand. See how the module that invokes the following doesn’t need to know the name of the events but only the functionality:
+          </p>
+          <pre><code class='javascript'>headerShowSpinner().then(function() {&#x000A;  return mainLoadPanel(options);&#x000A;}).done(function() {&#x000A;  headerHideSpinner();&#x000A;});</code></pre>
+          <p>
+            These are just simple patterns. It is not rocket science. It just helped me and I hope it helps you.
+          </p>
+          <a href='/tags/javascript.html' class='ui button basic blue mini'><i class='tag icon'></i>javascript</a>
+          <a href='/tags/scaleapp.html' class='ui button basic blue mini'><i class='tag icon'></i> scaleapp</a>
+          <a href='/tags/promises.html' class='ui button basic blue mini'><i class='tag icon'></i> promises</a>
+          <div class='ui divider'></div>
+        </div>
+        <div class='ui text container'>
+          <div id='disqus_thread'></div>
+          <script type='text/javascript'>
+          //<![CDATA[
+                            var disqus_shortname = 'thegoldbug';
+                    
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          //]]>
+          </script>
+          <noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+          <a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+          <script type="text/javascript">
+          //<![CDATA[
+              var disqus_shortname = 'thegoldbug';
+              (function () {
+                  var s = document.createElement('script'); s.async = true;
+                  s.type = 'text/javascript';
+                  s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+                  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+              }());
+          //]]>
+          </script>
+        </div>
+      </div>
+      <div class='ui inverted vertical footer segment'>
+        <div class='ui container'>
+          <div class='ui stackable inverted divided equal height stackable grid'>
+            <div class='three wide column'>
+              <h4 class='ui inverted header'>Social links</h4>
+              <div class='ui inverted link list'>
+                <div class='ui'>
+                  <i class='github icon'></i>
+                  <a class='item' href='https://github.com/rmoliva'>Github</a>
+                </div>
+                <div class='ui'>
+                  <i class='linkedin icon'></i>
+                  <a class='item' href='http://www.linkedin.com/in/robertomoliva'>Linkedin</a>
+                </div>
+                <div class='ui'>
+                  <i class='delicious icon'></i>
+                  <a class='item' href='http://del.icio.us/roliva'>Delicious</a>
+                </div>
+                <div class='ui'>
+                  <i class='twitter icon'></i>
+                  <a class='item' href='https://twitter.com/rmoliva'>Twitter</a>
+                </div>
+                <div class='ui'>
+                  <i class='google icon'></i>
+                  <a class='item' href='https://plus.google.com/u/0/113516990636581869855/posts/p/pub'>Google</a>
+                </div>
+                <div class='ui'>
+                  <i class='facebook icon'></i>
+                  <a class='item' href='https://www.facebook.com/roberto.m.oliva'>Facebook</a>
+                </div>
+                <div class='ui'>
+                  <i class='tumblr icon'></i>
+                  <a class='item' href='http://rmoliva.tumblr.com/'>Tumblr</a>
+                </div>
+              </div>
+            </div>
+            <div class='three wide column'>
+              <h4 class='ui inverted header'>Thanks to</h4>
+              <div class='ui inverted link list'>
+                <a class='item' href='https://middlemanapp.com/'>Middleman</a>
+                <a class='item' href='http://github.com/'>Github</a>
+                <a class='item' href='http://semantic-ui.com'>Semantic UI</a>
+                <a class='item' href='http://www.gratisography.com'>Gratisography</a>
+              </div>
+            </div>
+            <div class='seven wide column'>
+              <h4 class='ui inverted header'>Language disclaimer</h4>
+              <p>As you probably notice I am not a native English speaker so you can find lots of gramatical, typographical, etc mistakes. <br/> Any constructive criticism will be wellcome!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
