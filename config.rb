@@ -36,7 +36,7 @@ configure :development do
     deploy.deploy_method = :git
     # Optional Settings
     # deploy.remote   = 'custom-remote' # remote name or git url, default: origin
-    # deploy.branch   = 'custom-branch' # default: gh-pages
+    deploy.branch   = 'master' # default: gh-pages
     # deploy.strategy = :submodule      # commit strategy: can be :force_push or :submodule, default: :force_push
     # deploy.commit_message = 'custom-message'      # commit message (can be empty), default: Automated commit at `timestamp` by middleman-deploy `version`
     deploy.build_before = true
@@ -116,11 +116,15 @@ page "/feed.xml", layout: false
 
 # Build-specific configuration
 configure :build do
+  activate :sprockets
   # Minify CSS on build
-  # activate :minify_css
-
+  activate :minify_css
   # Minify Javascript on build
-  # activate :minify_javascript
+  activate :minify_javascript
+  # activate :syntax, :line_numbers => true
+  activate :directory_indexes
+  activate :i18n, :langs => [:en]
+  activate :search_engine_sitemap
   activate :disqus do |d|
     # using a different shortname for production builds
     d.shortname = "thegoldbug"
