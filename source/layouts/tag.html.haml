@@ -4,12 +4,14 @@
 %html
   %head= partial 'layouts/head', :locals => {:page_title =>  current_page.data['title']}
 
-  :css
-    .footer.segment {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-    }
+
+  - if page_articles.size == 1
+    :css
+      .footer.segment {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
 
   %body
     = partial 'layouts/floating_menu'
