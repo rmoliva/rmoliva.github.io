@@ -4,12 +4,19 @@
     <meta charset='utf-8'>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
     <meta content='width=device-width' initial-scale='1.0' maximum-scale='1.0' name='viewport'>
-    <title>About | The Gold Bug</title>
+    <title>The Gold Bug</title>
     <meta content='A long distance developer experience.' name='description'>
     <meta content='javascript,typescript,ruby,ror,rails,rubyonrails,ramda,cyclejs,snabbdom,reactjs,frp,functional,tdd,ci,scrum,mysql,mongodb,cassandra,linux,git' name='keywords'>
     <link href="/stylesheets/all.css" rel="stylesheet" />
     <script src="/javascripts/all.js"></script>
   </head>
+  <style>
+    .footer.segment {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
   <body>
     <div class='ui large top fixed hidden menu'>
       <div class='ui container'>
@@ -124,77 +131,46 @@
       </div>
       <div class='ui basic segment'>
         <div class='ui text container'>
-          <h1>About me</h1>
-        </div>
-      </div>
-      <div class='ui two column middle aligned stackable grid text container'>
-        <div class='column'>
-          With more than 20 years working as a developer I consider myself a long distance developer.
-          <br>
-          This is my blog where I will try to put my most interesting technological experiences...
-        </div>
-        <div class='aligned wide column'>
-          <img class='ui small circular image floated right' src='/images/photo.png'>
-        </div>
-      </div>
-      <div class='ui four column stackable grid container'>
-        <div class='column'>
-          <h2>Languages</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>JavaScript, Typescript</div>
-            <div class='item'>Ruby</div>
-            <div class='item'>C/C++</div>
-            <div class='item'>PHP</div>
-            <div class='item'>C#</div>
-            <div class='item'>Visual Basic and Visual Basic.Net</div>
-            <div class='item'>...</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Projects</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>Network distributed application to control humidity from copper samples.</div>
-            <div class='item'>Laboratory control application for quality measurement.</div>
-            <div class='item'>Complete ERP for a nutrition company.</div>
-            <div class='item'>Adaptative learning tool with advanced activities</div>
-            <div class='item'>Academic and psicopedagogical tool to control schools activities</div>
-            <div class='item'>Sales force mobile application</div>
-            <div class='item'>Distributed service for massive notification delivery</div>
-            <div class='item'>...</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Tools</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>Linux, git, etc</div>
-            <div class='item'>MySql, MS SQL Server, etc</div>
-            <div class='item'>MongoDB, Cassandra, CouchDB, etc</div>
-            <div class='item'>RoR, REST, Sinatra, Rack, etc</div>
-            <div class='item'>TDD, CI, Scrum, etc</div>
-            <div class='item'>RxJS, Ramda, ReactJS, Flux, CycleJS, etc</div>
-            <div class='item'>....</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Roles</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>CTO on Intersoft and LCIberica</div>
-            <div class='item'>Project manager</div>
-            <div class='item'>Lead programer</div>
-            <div class='item'>Turnkey projects as a freelance</div>
-            <div class='item'>....</div>
-          </div>
-        </div>
-      </div>
-      <div class='ui very padded text container basic segment'>
-        <div class='ui message'>
-          But your grandiloquence, and your conduct in swinging the beetle --how excessively odd! I was sure you were mad. And why did you insist on letting fall the bug, instead of a bullet, from the skull?
-          <br>
-          <div class='ui one column grid'>
-            <div class='ui right aligned column'>
-              <i>E.A. Poe</i>
+          <h1>
+            <i class='ui icon tag'></i>
+            Libraries
+          </h1>
+          <div class='ui vertical segment'>
+            <h2><a href="/posts/2016-08-20-the_frp_landscape/" class="header">The FRP landscape</a></h2>
+            <div class='meta'>2016 Aug 20</div>
+            <div class='description'>
+              <p>
+                Each passing day I am more convinced that Functional programming is the way to go:
+                </p><ul>
+                  <li>Pure functions</li>
+                  <li>Declarative programming</li>
+                  <li>Monad types</li>
+                  <li>etc</li>
+                </ul>
+              
+              <p>
+                As an analist and developer I continuosly try to reach the same horizon: Better valuable code for my client. This pretty sentence can be translated to the following:
+                </p><ul>
+                  <li>Easier to include advanced functionality and UI</li>
+                  <li>More tested code</li>
+                  <li>Easier to read amd mantain</li>
+                  <li>Easier to refactor and improve</li>
+                  <li>etc</li>
+                </ul>
+              
+              <p>
+                Functional programming has proved to help get those targets in better conditions.
+              </p>
+              <p>
+                There are a new breed of tools, named Functional Reactive Programming (FRP), that tries to deal the asynchronous JavaScript nature with a Functional approach. I am going to use this post as a directory for those tools.
+              </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div class='ui basic segment'>
+        <div class='ui one column grid'>
+          <div class='column'></div>
         </div>
       </div>
       <div class='ui inverted vertical footer segment'>

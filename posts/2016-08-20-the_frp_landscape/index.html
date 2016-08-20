@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
     <meta content='width=device-width' initial-scale='1.0' maximum-scale='1.0' name='viewport'>
-    <title>About | The Gold Bug</title>
+    <title>The FRP landscape | The Gold Bug</title>
     <meta content='A long distance developer experience.' name='description'>
     <meta content='javascript,typescript,ruby,ror,rails,rubyonrails,ramda,cyclejs,snabbdom,reactjs,frp,functional,tdd,ci,scrum,mysql,mongodb,cassandra,linux,git' name='keywords'>
     <link href="/stylesheets/all.css" rel="stylesheet" />
@@ -122,79 +122,141 @@
           </div>
         </div>
       </div>
-      <div class='ui basic segment'>
+      <div class='ui vertical stripe segment'>
         <div class='ui text container'>
-          <h1>About me</h1>
+          <h1>The FRP landscape</h1>
+          2016 Aug 20
+          <div class='ui divider'></div>
+          <p>
+            Each passing day I am more convinced that Functional programming is the way to go:
+            <ul>
+              <li>Pure functions</li>
+              <li>Declarative programming</li>
+              <li>Monad types</li>
+              <li>etc</li>
+            </ul>
+          </p>
+          <p>
+            As an analist and developer I continuosly try to reach the same horizon: Better valuable code for my client. This pretty sentence can be translated to the following:
+            <ul>
+              <li>Easier to include advanced functionality and UI</li>
+              <li>More tested code</li>
+              <li>Easier to read amd mantain</li>
+              <li>Easier to refactor and improve</li>
+              <li>etc</li>
+            </ul>
+          </p>
+          <p>
+            Functional programming has proved to help get those targets in better conditions.
+          </p>
+          <p>
+            There are a new breed of tools, named Functional Reactive Programming (FRP), that tries to deal the asynchronous JavaScript nature with a Functional approach. I am going to use this post as a directory for those tools.
+          </p>
+          
+          <h2>Functional Libraries</h2>
+          <ul>
+            <li>
+              <a href='http://ramdajs.com/'>Ramda</a>
+            </li>
+            <li>
+              <a href='https://github.com/lodash/lodash/wiki/FP-Guide'>Lodash FP</a>
+            </li>
+            <li>
+              <a href='http://danieltao.com/lazy.js/'>Lazy JS</a>
+            </li>
+            <li>
+              <a href='http://functionaljs.com/'>Function JS</a>
+            </li>
+          </ul>
+          <h2>Monads</h2>
+          <ul>
+            <li>
+              <a href='https://github.com/ramda/ramda-fantasy'>Ramda Fantasy</a>
+            </li>
+            <li>
+              <a href='https://github.com/ramda/ramda-fantasy'>Monet JS</a>
+            </li>
+            <li>
+              <a href='https://github.com/folktale'>Folktale</a>
+            </li>
+          </ul>
+          <h2>FRP Libraries</h2>
+          <ul>
+            <li>
+              <a href='https://github.com/Reactive-Extensions/RxJS'>RxJS</a>
+            </li>
+            <li>
+              <a href='https://baconjs.github.io/'>BaconJS</a>
+            </li>
+            <li>
+              <a href='https://github.com/cujojs/most'>MostJS</a>
+            </li>
+            <li>
+              <a href='http://highlandjs.org/'>Highland</a>
+            </li>
+            <li>
+              <a href='https://rpominov.github.io/kefir/'>Kefir</a>
+            </li>
+            <li>
+              <a href='https://github.com/staltz/xstream'>XStream</a>
+            </li>
+            <li>
+              <a href='https://github.com/paldepind/flyd'>Flyd</a>
+            </li>
+          </ul>
+          <h2>FRP framworks</h2>
+          <ul>
+            <li>
+              <a href='http://cycle.js.org/'>Cycle JS</a>
+            </li>
+            <li>
+              <a href='https://github.com/tsers-js/core/'>TSERS JS</a>
+            </li>
+            <li>
+              <a href='https://github.com/calmm-js'>Calm^2 JS</a>
+            </li>
+          </ul>
+          <p>
+            As you can see in the following link:
+            <a href='https://github.com/xgrommx/awesome-functional-programming'>Awesome Functional programming</a>
+            There are many, many more.
+            <br>
+            I will put in this blog my experiences with some of this libraries.
+          </p>
+          <a href='/tags/javascript/' class='ui button basic blue mini'><i class='tag icon'></i>javascript</a>
+          <a href='/tags/functional-programming/' class='ui button basic blue mini'><i class='tag icon'></i> functional programming</a>
+          <a href='/tags/libraries/' class='ui button basic blue mini'><i class='tag icon'></i> libraries</a>
+          <a href='/tags/fp/' class='ui button basic blue mini'><i class='tag icon'></i> fp</a>
+          <a href='/tags/monads/' class='ui button basic blue mini'><i class='tag icon'></i> monads</a>
+          <a href='/tags/frp/' class='ui button basic blue mini'><i class='tag icon'></i> frp</a>
+          <div class='ui divider'></div>
         </div>
-      </div>
-      <div class='ui two column middle aligned stackable grid text container'>
-        <div class='column'>
-          With more than 20 years working as a developer I consider myself a long distance developer.
-          <br>
-          This is my blog where I will try to put my most interesting technological experiences...
-        </div>
-        <div class='aligned wide column'>
-          <img class='ui small circular image floated right' src='/images/photo.png'>
-        </div>
-      </div>
-      <div class='ui four column stackable grid container'>
-        <div class='column'>
-          <h2>Languages</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>JavaScript, Typescript</div>
-            <div class='item'>Ruby</div>
-            <div class='item'>C/C++</div>
-            <div class='item'>PHP</div>
-            <div class='item'>C#</div>
-            <div class='item'>Visual Basic and Visual Basic.Net</div>
-            <div class='item'>...</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Projects</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>Network distributed application to control humidity from copper samples.</div>
-            <div class='item'>Laboratory control application for quality measurement.</div>
-            <div class='item'>Complete ERP for a nutrition company.</div>
-            <div class='item'>Adaptative learning tool with advanced activities</div>
-            <div class='item'>Academic and psicopedagogical tool to control schools activities</div>
-            <div class='item'>Sales force mobile application</div>
-            <div class='item'>Distributed service for massive notification delivery</div>
-            <div class='item'>...</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Tools</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>Linux, git, etc</div>
-            <div class='item'>MySql, MS SQL Server, etc</div>
-            <div class='item'>MongoDB, Cassandra, CouchDB, etc</div>
-            <div class='item'>RoR, REST, Sinatra, Rack, etc</div>
-            <div class='item'>TDD, CI, Scrum, etc</div>
-            <div class='item'>RxJS, Ramda, ReactJS, Flux, CycleJS, etc</div>
-            <div class='item'>....</div>
-          </div>
-        </div>
-        <div class='column'>
-          <h2>Roles</h2>
-          <div class='ui list bulleted'>
-            <div class='item'>CTO on Intersoft and LCIberica</div>
-            <div class='item'>Project manager</div>
-            <div class='item'>Lead programer</div>
-            <div class='item'>Turnkey projects as a freelance</div>
-            <div class='item'>....</div>
-          </div>
-        </div>
-      </div>
-      <div class='ui very padded text container basic segment'>
-        <div class='ui message'>
-          But your grandiloquence, and your conduct in swinging the beetle --how excessively odd! I was sure you were mad. And why did you insist on letting fall the bug, instead of a bullet, from the skull?
-          <br>
-          <div class='ui one column grid'>
-            <div class='ui right aligned column'>
-              <i>E.A. Poe</i>
-            </div>
-          </div>
+        <div class='ui text container'>
+          <div id='disqus_thread'></div>
+          <script type='text/javascript'>
+          //<![CDATA[
+                            var disqus_shortname = 'thegoldbug';
+                    
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          //]]>
+          </script>
+          <noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+          <a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+          <script type="text/javascript">
+          //<![CDATA[
+              var disqus_shortname = 'thegoldbug';
+              (function () {
+                  var s = document.createElement('script'); s.async = true;
+                  s.type = 'text/javascript';
+                  s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+                  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+              }());
+          //]]>
+          </script>
         </div>
       </div>
       <div class='ui inverted vertical footer segment'>
